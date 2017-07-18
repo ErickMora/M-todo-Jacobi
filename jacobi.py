@@ -3,8 +3,9 @@
 
 import random 
 import numpy as np
+import sys
 
-n=200
+n=int(sys.argv[1])
 A=np.random.random((n,n))
 b=np.random.random(n)
 D=np.zeros((n,n))
@@ -17,24 +18,22 @@ for i in range (0,n):
 		R[i][i]=0.0
 
 x0=np.random.random(n)
-x1=np.random.random(n)
+x1=np.zeros(n)
 
-while (x1.all()!=x0.all()):
-	for i in range (0,n):
-		for j in range (0,n):
-			x0[i]=x1[i]
-			x1[i]=D[i][j]*(b[i]-R[i][j]*x0[i])
+def jacobi(x0,x1):
+	while (round(np.linalg.norm(np.dot(A,x1)-b),10)!=round(.0,10)):
+		x0=x1
+		x1=np.dot(D,(b-np.dot(R,x0)))
 
-
+		if(round(np.linalg.norm(np.dot(A,x1)-b),10)==round(.0,10)):
+			print("Solucion: ")
+			print(x1)
+			break
+			jacobi(x0,x1)
+		
+print("Matriz A: ")
 print(A)
-print("\n")
+print("Array b: ")
 print(b)
-print("\n")
-print(R)
-print("\n")
-print(D)
-print("\n")
-print(x0)
-print("\n")
-print(x1)
-print("\n")
+		
+jacobi(x0,x1)
